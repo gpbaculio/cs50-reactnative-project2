@@ -86,6 +86,9 @@ export default class HomeScreen extends Component {
         });
     });
   };
+  onPress = movie => {
+    this.props.navigation.navigate('Movie', { ...movie });
+  };
   render() {
     const { text, movies } = this.state;
     return (
@@ -93,7 +96,9 @@ export default class HomeScreen extends Component {
         <FlatList
           style={styles.listContainer}
           data={movies}
-          renderItem={({ item }) => <Movie {...item} />}
+          renderItem={({ item }) => (
+            <Movie onPress={this.onPress} movie={item} />
+          )}
           keyExtractor={({ imdbID }) => imdbID}
           ItemSeparatorComponent={this.renderSeparator}
           ListHeaderComponent={

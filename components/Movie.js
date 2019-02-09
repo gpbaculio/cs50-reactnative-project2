@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -24,21 +31,31 @@ const styles = StyleSheet.create({
 
 export default class Movie extends Component {
   render() {
-    const { Poster, Title, Year, Type } = this.props;
+    const { movie, onPress } = this.props;
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={() => onPress(movie)}>
         <Image
           source={{
-            uri: `${Poster}`,
+            uri: `${movie.Poster}`,
             cache: 'only-if-cached'
           }}
           style={styles.movieImg}
         />
         <View style={styles.dataContainer}>
-          <Text style={styles.movieTitle}>{Title}</Text>
-          <Text>{`${Year} (${Type})`}</Text>
+          <Text style={styles.movieTitle}>{movie.Title}</Text>
+          <Text>{`${movie.Year} (${movie.Type})`}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }
+Movie.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  movie: PropTypes.shape({
+    Poster: PropTypes.string.isRequired,
+    Title: PropTypes.string.isRequired,
+    Type: PropTypes.string.isRequired,
+    Year: PropTypes.string.isRequired,
+    imdbID: PropTypes.string.isRequired
+  }).isRequired
+};
