@@ -33,7 +33,9 @@ export default class Movie extends Component {
   render() {
     const { movie, onPress } = this.props;
     return (
-      <TouchableOpacity style={styles.container} onPress={() => onPress(movie)}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => onPress({ id: movie.imdbID, title: movie.Title })}>
         <Image
           source={{
             uri: `${movie.Poster}`,
@@ -49,6 +51,7 @@ export default class Movie extends Component {
     );
   }
 }
+
 Movie.propTypes = {
   onPress: PropTypes.func.isRequired,
   movie: PropTypes.shape({

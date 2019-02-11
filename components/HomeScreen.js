@@ -17,10 +17,7 @@ export default class HomeScreen extends Component {
     headerStyle: {
       backgroundColor: '#f4511e'
     },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold'
-    }
+    headerTintColor: '#fff'
   };
   state = {
     text: '',
@@ -86,8 +83,8 @@ export default class HomeScreen extends Component {
         });
     });
   };
-  onPress = movie => {
-    this.props.navigation.navigate('Movie', { ...movie });
+  onPress = ({ id, title }) => {
+    this.props.navigation.navigate('Movie', { id, title });
   };
   render() {
     const { text, movies } = this.state;

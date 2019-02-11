@@ -11,11 +11,16 @@ const AppNavigator = createStackNavigator(
     /* The header config from HomeScreen is now here */
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: '#f4511e'
+        backgroundColor: '#f4511e',
+        alignSelf: 'center',
+        textAlign: 'center'
       },
       headerTintColor: '#fff',
       headerTitleStyle: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center',
+        alignSelf: 'center',
+        flex: 1
       }
     }
   }
