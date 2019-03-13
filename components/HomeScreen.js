@@ -47,7 +47,6 @@ class HomeScreen extends Component {
         )
           .then(({ _bodyInit }) => JSON.parse(_bodyInit))
           .then(({ Search: movies }) => {
-            console.log(`fetch!`)
             this.setState({ movies, loading: false });
           })
           .catch(error => {
