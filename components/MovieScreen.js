@@ -9,7 +9,10 @@ import {
   Image
 } from 'react-native';
 
-export default class MovieScreen extends Component {
+const key = 'f4544712';
+
+class MovieScreen extends Component {
+
   static navigationOptions = ({
     navigation: {
       state: { params: params }
@@ -22,6 +25,7 @@ export default class MovieScreen extends Component {
     headerTintColor: '#fff',
     headerRight: <View />
   });
+
   state = {
     loading: false,
     Poster: null,
@@ -31,13 +35,15 @@ export default class MovieScreen extends Component {
     Title: null,
     error: null
   };
+
   componentDidMount = async () => {
+
     const {
       navigation: {
         state: { params: params }
       }
     } = this.props;
-    const key = 'f4544712';
+
     await fetch(
       `http://www.omdbapi.com/?apikey=${key}&i=${params.id}&plot=full`
     )
@@ -71,57 +77,59 @@ export default class MovieScreen extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          {Boolean(error) && <Text>{error}</Text>}
+          {!!error && <Text>{error}</Text>}
           {Poster === null ? (
-            <Text>Loading...</Text>
+            <View style={styles.loading}>
+              <ActivityIndicator animating size="large" />
+            </View>
           ) : (
-            <React.Fragment>
-              <Image
-                source={{
-                  uri: `${Poster}`,
-                  cache: 'only-if-cached'
-                }}
-                style={styles.poster}
-              />
-              <View style={styles.heading}>
-                <Text style={styles.title}>{Title}</Text>
-                <Text>{` (${Year})`}</Text>
-              </View>
-              <View style={styles.subHeading}>
-                <Text>{`${Rated}, `}</Text>
-                <Text>{Runtime}</Text>
-              </View>
-              <Text style={styles.plot}>{Plot}</Text>
-              {Ratings.map(({ Source, Value }, idx) => {
-                let width;
-                if (Value.includes('%')) {
-                  width = Number(Value.replace('%', ''));
-                } else if (Value.includes('/')) {
-                  width = Number(eval(Value) * 100);
-                }
-                let backgroundColor;
-                if (width > 70) {
-                  backgroundColor = 'green';
-                } else if (width > 50) {
-                  backgroundColor = 'yellow';
-                } else if (width < 50) {
-                  backgroundColor = 'red';
-                }
-                return (
-                  <View key={idx} style={styles.rating}>
-                    <Text key={idx}>{`${Source} (${Value}):`}</Text>
-                    <View
-                      style={{
-                        width: `${width}%`,
-                        backgroundColor,
-                        height: 30
-                      }}
-                    />
-                  </View>
-                );
-              })}
-            </React.Fragment>
-          )}
+              <React.Fragment>
+                <Image
+                  source={{
+                    uri: `${Poster}`,
+                    cache: 'only-if-cached'
+                  }}
+                  style={styles.poster}
+                />
+                <View style={styles.heading}>
+                  <Text style={styles.title}>{Title}</Text>
+                  <Text>{` (${Year})`}</Text>
+                </View>
+                <View style={styles.subHeading}>
+                  <Text>{`${Rated}, `}</Text>
+                  <Text>{Runtime}</Text>
+                </View>
+                <Text style={styles.plot}>{Plot}</Text>
+                {Ratings.map(({ Source, Value }, idx) => {
+                  let width;
+                  if (Value.includes('%')) {
+                    width = Number(Value.replace('%', ''));
+                  } else if (Value.includes('/')) {
+                    width = Number(eval(Value) * 100);
+                  }
+                  let backgroundColor;
+                  if (width > 70) {
+                    backgroundColor = 'green';
+                  } else if (width > 50) {
+                    backgroundColor = 'yellow';
+                  } else if (width < 50) {
+                    backgroundColor = 'red';
+                  }
+                  return (
+                    <View key={idx} style={styles.rating}>
+                      <Text key={idx}>{`${Source} (${Value}):`}</Text>
+                      <View
+                        style={{
+                          width: `${width}%`,
+                          backgroundColor,
+                          height: 30
+                        }}
+                      />
+                    </View>
+                  );
+                })}
+              </React.Fragment>
+            )}
         </ScrollView>
       </View>
     );
@@ -160,5 +168,11 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginBottom: 10
+  },
+  loading: {
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
+
+export default MovieScreen

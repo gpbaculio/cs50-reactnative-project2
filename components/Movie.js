@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {
   View,
   Text,
   Image,
   StyleSheet,
-  Dimensions,
   TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class Movie extends Component {
+export default class Movie extends PureComponent {
   render() {
     const { movie, onPress } = this.props;
     return (
